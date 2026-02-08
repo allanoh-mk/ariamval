@@ -843,11 +843,12 @@
         <p class="mt-8 text-white tracking-widest text-sm animate-pulse">LOADING LOVE...</p>
     </div>
     <!-- AUDIO -->
-    <audio id="bg-music" loop>
-        <source src="assets/bg-music/Ollie - Better With You (ft. Aleesia) .mp3" type="audio/mp3">
+    <audio id="bg-music" loop preload="auto">
+        <source src="assets/bg-music/Ollie - Better With You (ft. Aleesia) .mp3" type="audio/mpeg">
     </audio>
-    <audio id="voice-note-audio">
+    <audio id="voice-note-audio" preload="auto">
         <source src="assets/wa-note/valnote.m4a" type="audio/mp4">
+        <source src="assets/wa-note/valnote.m4a" type="audio/x-m4a">
     </audio>
 
     <!-- START OVERLAY -->
@@ -1559,8 +1560,16 @@
             // 1. START & MUSIC
             const bgMusic = document.getElementById('bg-music');
             bgMusic.volume = 0.1; // Very low volume
+
+            // Log if music file loads
+            bgMusic.addEventListener('canplaythrough', () => console.log('Background music loaded successfully'));
+            bgMusic.addEventListener('error', (e) => console.error('Background music error:', e));
+
             document.getElementById('start-overlay').addEventListener('click', function () {
-                bgMusic.play().catch(e => console.log(e));
+                console.log('Starting background music...');
+                bgMusic.play()
+                    .then(() => console.log('Background music playing'))
+                    .catch(e => console.error('Play error:', e));
                 this.style.opacity = 0;
                 setTimeout(() => this.remove(), 500);
             });
