@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>For Ariam 💖</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Sacramento&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Screenshot Tool -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <style>
+        /* --- VARIABLES & BASICS --- */
+        :root {
+            --bg-dark: #05010a;
+            --pink: #ff007f;
+            --pink-light: #ff66b2;
+            --purple: #9d00ff;
+            --gold: #ffd700;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            transition: opacity 0.5s ease;
+        }
+
+        /* --- LOADING SCREEN --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #000000, #1a0515, #000000);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .heart-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        .heart-loader::before,
+        .heart-loader::after {
+            content: "💖";
+            position: absolute;
+            font-size: 60px;
+            top: 0;
+            left: 0;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.2);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        /* --- SCROLL PROGRESS BAR --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            width: 0%;
+            z-index: 10001;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px var(--pink);
+        }
+
+        /* --- FLUID TRANSITIONS --- */
+        * {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        section {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card,
+        .masonry-item,
+        button,
+        a {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--pink), var(--purple));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-light);
+        }
+
+        /* --- BACKGROUND --- */
+        #main-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 15% 50%, rgba(255, 0, 127, 0.2), transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(157, 0, 255, 0.2), transparent 40%),
+                linear-gradient(to bottom, #000000, #1a0515, #000000);
+            background-size: 200% 200%;
+            animation: bg-shift 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bg-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 1, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--pink);
+        }
+
+        /* --- FONTS & TEXT --- */
+        .romantic-font {
+            font-family: 'Sacramento', cursive;
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gradient-text-pink {
+            background: linear-gradient(to right, #ff007f, #ff66b2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-gold {
+            background: linear-gradient(to right, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- GLASS CARDS (Refined) --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- SECTION STYLING --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 1rem 2rem 1rem;
+            position: relative;
+        }
+
+        /* --- 1. HERO --- */
+        .heartbeat-text {
+            animation: pulse-text 1.5s infinite;
+        }
+
+        @keyframes pulse-text {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 15px var(--pink);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* --- 2. TIMELINE --- */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--pink), var(--purple), transparent);
+        }
+
+        .custom-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-underline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 10px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M0 10 Q 25 20, 50 10 T 100 10' stroke='%23ff007f' stroke-width='3' fill='none' /%3E%3C/svg%3E") no-repeat center/contain;
+        }
+
+        .map-img-container {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        /* --- 3. GALLERY (MASONRY) --- */
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 1rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .masonry-item:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            border-color: var(--pink);
+        }
+
+        .masonry-item img {
+            width: 100%;
+            display: block;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px;
+        }
+
+        .masonry-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Gallery Modal */
+        #gallery-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 20000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            text-align: center;
+        }
+
+        #modal-content img,
+        #modal-content video {
+            max-height: 80vh;
+            max-width: 100%;
+            border-radius: 8px;
+            border: 2px solid var(--pink);
+            box-shadow: 0 0 30px var(--pink);
+        }
+
+        /* Video Gallery Items */
+        .video-item {
+            position: relative;
+        }
+
+        .video-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 0, 127, 0.2), rgba(157, 0, 255, 0.2));
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .video-item:hover::before {
+            opacity: 1;
+        }
+
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .video-item:hover .play-overlay {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(255, 0, 127, 0.3);
+            border-color: var(--pink);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+            animation: pulse-play 1.5s infinite;
+        }
+
+        .play-overlay i {
+            color: white;
+            font-size: 24px;
+            margin-left: 3px;
+        }
+
+        @keyframes pulse-play {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(255, 0, 127, 0.8);
+            }
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- CUSTOM VIDEO PLAYER --- */
+        .video-player-modal {
+            max-width: 95vw;
+            max-height: 90vh;
+        }
+
+        .video-player-modal video {
+            width: 100%;
+            height: auto;
+            min-height: 400px;
+            max-height: 80vh;
+            border-radius: 12px;
+            border: 3px solid var(--pink);
+            box-shadow: 0 0 40px var(--pink);
+        }
+
+        /* Custom Video Controls */
+        video::-webkit-media-controls-panel {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        }
+
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-volume-slider,
+        video::-webkit-media-controls-timeline {
+            filter: brightness(1.5);
+        }
+
+        /* --- 4. LOGIN GLASS (Refined) --- */
+        .glass-login {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            z-index: 50;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .user-icon-glow {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--pink);
+            box-shadow: 0 0 15px var(--pink);
+        }
+
+        .input-glass {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 8px;
+            width: 100%;
+            padding: 12px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-glass:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+        }
+
+        /* Animation Elements */
+        .cut-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--pink);
+            z-index: 60;
+            transition: width 1s linear;
+            box-shadow: 0 0 10px var(--pink);
+        }
+
+        .scissors {
+            position: absolute;
+            top: 45%;
+            left: 0;
+            font-size: 30px;
+            color: white;
+            z-index: 61;
+            transition: left 1s linear;
+            display: none;
+        }
+
+        .nuclear-blast {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes explosion {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+                background: yellow;
+            }
+
+            50% {
+                transform: scale(10);
+                opacity: 1;
+                background: orange;
+            }
+
+            100% {
+                transform: scale(20);
+                opacity: 0;
+                background: red;
+            }
+        }
+
+        /* --- 5. LETTER --- */
+        #letter-container {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .voice-note-wa {
+            background: #202c33;
+            border-radius: 0 15px 15px 15px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+            border: 1px solid rgba(134, 150, 160, 0.15);
+            margin-left: auto;
+        }
+
+        .voice-scrubber {
+            flex: 1;
+            height: 3px;
+            background: #536069;
+            width: 120px;
+            position: relative;
+        }
+
+        .voice-progress {
+            height: 100%;
+            background: var(--pink);
+            width: 0%;
+        }
+
+        /* --- 6. YES CARD & TIMELINE --- */
+        #yes-card-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .yes-card-design {
+            background: rgba(20, 5, 20, 0.4);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 30px;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 0, 127, 0.2);
+            overflow: hidden;
+        }
+
+        .yes-card-design::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 127, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .tl-visual-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        /* Solid Lines */
+        .tl-line-solid {
+            height: 4px;
+            flex: 1;
+            background: #ffaa00;
+            box-shadow: 0 0 5px #ffaa00;
+        }
+
+        /* Broken Line */
+        .tl-line-broken {
+            height: 15px;
+            flex: 1;
+            background: url('data:image/svg+xml;utf8,<svg width="100%" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M0,7 L10,2 L20,12 L30,2 L40,12 L50,2 L60,12 L70,2 L80,12 L90,2 L100,7" stroke="%23555" stroke-width="2" fill="none"/></svg>');
+            background-size: cover;
+            opacity: 0.7;
+        }
+
+        .tl-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+            font-size: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .tl-node.broken {
+            background: rgba(0, 0, 0, 0.5);
+            color: #777;
+            border: 1px solid #444;
+        }
+
+        .tl-node.ring {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            background: radial-gradient(circle, #fff, #ffd700);
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 40px #ffd700, 0 0 10px #ffaa00;
+            color: #5a3e00;
+        }
+
+        /* --- OVERLAY --- */
+        #start-overlay {
+            background: black;
+            z-index: 99999;
+        }
+
+        .tap-heart {
+            animation: beat 1s infinite;
+            font-size: 80px;
+            color: var(--pink);
+            opacity: 0.5;
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                margin-left: 0;
+            }
+
+            .timeline-content {
+                margin-left: 3rem;
+                width: 85%;
+            }
+
+            .tl-node {
+                width: 40px;
+                height: 40px;
+                font-size: 10px;
+            }
+
+            .tl-node.ring {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* --- TOAST --- */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(20, 20, 20, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid var(--pink);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SCROLL PROGRESS -->
+    <div id="scroll-progress"></div>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="heart-loader"></div>
+        <p class="mt-8 text-white tracking-widest text-sm animate-pulse">LOADING LOVE...</p>
+    </div>
+    <!-- AUDIO -->
+    <audio id="bg-music" loop>
+        <source src="assets/bg-music/Ollie - Better With You (ft. Aleesia) .mp3" type="audio/mp3">
+    </audio>
+    <audio id="voice-note-audio">
+        <source src="assets/wa-note/valnote.m4a" type="audio/mp4">
+    </audio>
+
+    <!-- START OVERLAY -->
+    <div id="start-overlay" class="fixed inset-0 flex flex-col justify-center items-center cursor-pointer">
+        <div class="tap-heart"><i class="fas fa-heart"></i></div>
+        <h1 class="text-6xl romantic-font text-white mb-2 relative z-10">For Ariam</h1>
+        <p class="text-pink-500 text-sm tracking-[0.5em] uppercase relative z-10 animate-pulse">Tap to Enter</p>
+    </div>
+
+    <!-- MAIN BACKGROUND -->
+    <div id="main-bg"></div>
+    <canvas id="canvas-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="flex justify-center items-center py-4 px-6">
+        <ul class="flex gap-6 md:gap-12">
+            <li><a href="#hero" class="nav-link">Home</a></li>
+            <li><a href="#timeline" class="nav-link">Our Story</a></li>
+            <li><a href="#gallery" class="nav-link">Gallery</a></li>
+            <li><a href="#login-section" class="nav-link">Secret</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. HERO -->
+    <section id="home">
+        <div class="text-center z-10 px-4" data-aos="zoom-in" data-aos-duration="1500">
+            <h2 id="greeting" class="text-2xl md:text-3xl text-pink-300 font-light mb-2">Hey Beautiful,</h2>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 gradient-text romantic-font">Ariam Nyariana</h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-lg mx-auto mb-6">
+                From Hike arguments to walking late night throught toa. It's been quite the ride.
+            </p>
+            <!-- Heartbeat -->
+            <div class="mb-12 glass-card inline-block px-8 py-4">
+                <p class="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Heart Beats</p>
+                <div class="flex justify-center items-center gap-3">
+                    <i class="fas fa-heart-pulse text-pink-500 text-2xl"></i>
+                    <span id="heartbeats"
+                        class="text-4xl md:text-5xl font-mono font-bold text-white heartbeat-text">0</span>
+                </div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="grid grid-cols-4 gap-2 md:gap-4 max-w-md mx-auto">
+                <div class="glass-card p-3"><span id="days" class="block text-2xl font-bold text-pink-500">0</span><span
+                        class="text-[9px] uppercase">Days</span></div>
+                <div class="glass-card p-3"><span id="hours"
+                        class="block text-2xl font-bold text-pink-500">0</span><span
+                        class="text-[9px] uppercase">Hrs</span></div>
+                <div class="glass-card p-3"><span id="minutes"
+                        class="block text-2xl font-bold text-pink-500">0</span><span
+                        class="text-[9px] uppercase">Mins</span></div>
+                <div class="glass-card p-3"><span id="seconds"
+                        class="block text-2xl font-bold text-pink-500">0</span><span
+                        class="text-[9px] uppercase">Secs</span></div>
+            </div>
+
+            <!-- Gallery Link (Fixed) -->
+            <div class="mt-8">
+                <a href="#gallery"
+                    class="inline-block border border-pink-500 text-pink-500 px-6 py-2 rounded-full hover:bg-pink-500 hover:text-white transition text-sm uppercase tracking-widest cursor-pointer">
+                    <i class="fas fa-images mr-2"></i> View Our Gallery
+                </a>
+            </div>
+
+            <div class="mt-12 text-center animate-bounce">
+                <i class="fas fa-chevron-down text-pink-500 text-xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. TIMELINE -->
+    <section id="timeline">
+        <h2 class="text-4xl md:text-6xl mb-12 romantic-font custom-underline">Our Crazy Story</h2>
+
+        <div class="relative w-full max-w-4xl px-4 py-8">
+            <div class="timeline-line"></div>
+
+            <!-- Memory 1: Kenswed -->
+            <div class="flex flex-col md:flex-row justify-between items-center w-full mb-20 relative timeline-item"
+                data-aos="fade-up">
+                <div class="w-full md:w-5/12 text-right pr-8 mb-4 md:mb-0 hidden md:block">
+                    <div class="glass-card p-2 inline-block transform rotate-2"><img
+                            src="assets/Picsart_23-12-09_02-44-08-521.jpg" class="rounded w-64 h-auto"></div>
+                </div>
+                <div
+                    class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white z-10">
+                </div>
+                <div class="w-full md:w-5/12 pl-8 md:pl-8 timeline-content">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl text-pink-400 font-bold serif-font">The Hike List ⛰️</h3>
+                        <p class="text-gray-300 text-sm mt-2 mb-3">Repeating Form 3, I was lost. Teased you about paying
+                            for the trip, but you were ahead of me. We fought, but you sparked something.</p>
+                        <!-- Static Map Image -->
+                        <!-- Real Map: Ngong Hills -->
+                        <div class="map-img-container" style="border: none;">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15954.887961957294!2d36.6346726871582!3d-1.343542799999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1b0b2e8d6411%3A0x6d9f8e8e6e8e8e8e!2sNgong%20Hills!5e0!3m2!1sen!2ske!4v1680000000000!5m2!1sen!2ske"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory 2: Tie Grab -->
+            <div class="flex flex-col md:flex-row-reverse justify-between items-center w-full mb-20 relative timeline-item"
+                data-aos="fade-up">
+                <div class="w-full md:w-5/12 text-left pl-8 mb-4 md:mb-0 hidden md:block">
+                    <div class="glass-card p-2 inline-block transform -rotate-2"><img
+                            src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"
+                            class="rounded w-64 h-40 object-cover"></div>
+                </div>
+                <div
+                    class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white z-10">
+                </div>
+                <div class="w-full md:w-5/12 pl-8 md:pr-8 timeline-content">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl text-pink-400 font-bold serif-font">The Tie Grab 💋</h3>
+                        <p class="text-gray-300 text-sm mt-2">Friend-zoned at Obadiah's corner. Then, while looking for
+                            a geography book, you grabbed my tie. The "bad boy" was mesmerized.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory 3: The Last Day -->
+            <div class="flex flex-col md:flex-row justify-between items-center w-full mb-20 relative timeline-item"
+                data-aos="fade-up">
+                <div class="w-full md:w-5/12 text-right pr-8 mb-4 md:mb-0 hidden md:block">
+                    <div class="glass-card p-2 inline-block transform rotate-1"><img src="assets/20241230_094941.jpg"
+                            class="rounded w-64 h-auto"></div>
+                </div>
+                <div
+                    class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white z-10">
+                </div>
+                <div class="w-full md:w-5/12 pl-8 md:pl-8 timeline-content">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl text-pink-400 font-bold serif-font">The Last Day... Or So I Thought 💔</h3>
+                        <p class="text-gray-300 text-sm mt-2 mb-3">Prayer Day. Success card. We made out at my spot,
+                            your eyes watery. I left thinking it was just a high school romance ending.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory 4: The Reconnection -->
+            <div class="flex flex-col md:flex-row-reverse justify-between items-center w-full mb-20 relative timeline-item"
+                data-aos="fade-up">
+                <div class="w-full md:w-5/12 text-left pl-8 mb-4 md:mb-0 hidden md:block">
+                    <div class="glass-card p-2 inline-block transform -rotate-2"><img src="assets/20250416_185932.jpg"
+                            class="rounded w-64 h-auto"></div>
+                </div>
+                <div
+                    class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white z-10">
+                </div>
+                <div class="w-full md:w-5/12 pl-8 md:pr-8 timeline-content">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl text-pink-400 font-bold serif-font">The Reconnection 📱</h3>
+                        <p class="text-gray-300 text-sm mt-2">Nov 2024. You found me again. Late night calls through
+                            your candidate year. We picked up right where we left off.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory 3: Nyayo -->
+            <div class="flex flex-col md:flex-row justify-between items-center w-full mb-20 relative timeline-item"
+                data-aos="fade-up">
+                <div class="w-full md:w-5/12 text-right pr-8 mb-4 md:mb-0 hidden md:block">
+                    <div class="glass-card p-2 inline-block transform rotate-1"><img src="assets/20250818_213417.jpg"
+                            class="rounded w-64 h-auto"></div>
+                </div>
+                <div
+                    class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-pink-500 rounded-full border-4 border-white z-10">
+                </div>
+                <div class="w-full md:w-5/12 pl-8 md:pl-8 timeline-content">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl text-pink-400 font-bold serif-font">CHAN & Nairobi 🌃</h3>
+                        <p class="text-gray-300 text-sm mt-2 mb-3">Freezing cold. 45 minutes at Nyayo. But seeing the
+                            city lights with you, playing and kissing, made it our perfect date.</p>
+                        <!-- Static Map Image -->
+                        <!-- Real Map: Nyayo Stadium -->
+                        <div class="map-img-container" style="border: none;">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.807890458734!2d36.82276567375276!3d-1.299042235630656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d6a0e6981b%3A0xb6f8a44558509c3!2sNyayo%20National%20Stadium!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. GALLERY SECTION (INTEGRATED) -->
+    <section id="gallery">
+        <h2
+            class="text-4xl md:text-5xl mb-8 serif-font text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+            Memories Gallery</h2>
+
+        <div class="masonry-grid">
+            <!-- Screenshot_20250106-010630_Instagram.jpg -->
+            <div class="masonry-item"
+                onclick="openModal('assets/Screenshot_20250106-010630_Instagram.jpg', 'Memory', 'Jan 06, 2025')">
+                <img src="assets/Screenshot_20250106-010630_Instagram.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Video calls • Jan 06, 2025</p>
+                </div>
+            </div>
+            <!-- Picsart_23-12-09_02-46-57-952.jpg -->
+            <div class="masonry-item"
+                onclick="openModal('assets/Picsart_23-12-09_02-46-57-952.jpg', 'Artistic Edit', 'Dec 09, 2023')">
+                <img src="assets/Picsart_23-12-09_02-46-57-952.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Hike-Ngong hills • Sept 09, 2023</p>
+                </div>
+            </div>
+            <!-- Picsart_23-12-09_02-45-29-150.jpg -->
+            <div class="masonry-item"
+                onclick="openModal('assets/Picsart_23-12-09_02-45-29-150.jpg', 'Artistic Edit', 'Dec 09, 2023')">
+                <img src="assets/Picsart_23-12-09_02-45-29-150.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Hike-Ngong hills • Sept 09, 2023</p>
+                </div>
+            </div>
+            <!-- Picsart_23-12-09_02-44-08-521.jpg -->
+            <div class="masonry-item"
+                onclick="openModal('assets/Picsart_23-12-09_02-44-08-521.jpg', 'Artistic Edit', 'Dec 09, 2023')">
+                <img src="assets/Picsart_23-12-09_02-44-08-521.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Hike-Ngong hills • Sept 09, 2023</p>
+                </div>
+            </div>
+            <!-- 20250818_213436.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_213436.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_213436.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--Nairobi nights• AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_213434.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_213434.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_213434.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--Nairobi nights• AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_213427.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_213427.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_213427.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--Nairobi nights• AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_213417.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_213417.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_213417.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--Nairobi nights• AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_205056.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_205056.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_205056.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_205049.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_205049.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_205049.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_205046.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_205046.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_205046.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_205043.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_205043.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_205043.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_195451.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_195451.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_195451.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_195037.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_195037.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_195037.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_184230.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_184230.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_184230.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_184151.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_184151.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_184151.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_184138.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_184138.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_184138.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_184131.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_184131.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_184131.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250818_184031.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250818_184031.jpg', 'Memory', 'Aug 18, 2025')">
+                <img src="assets/20250818_184031.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN--NYAYO STADIUM • AUG 18, 2025</p>
+                </div>
+            </div>
+            <!-- 20250420_174112.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250420_174112.jpg', 'Memory', 'Apr 20, 2025')">
+                <img src="assets/20250420_174112.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Chill out Roasters • April 20, 2025</p>
+                </div>
+            </div>
+            <!-- 20250416_185934.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250416_185934.jpg', 'Memory', 'Apr 16, 2025')">
+                <img src="assets/20250416_185934.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">BIRTHDAY • April 16, 2025</p>
+                </div>
+            </div>
+            <!-- 20250416_185932.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20250416_185932.jpg', 'Memory', 'Apr 16, 2025')">
+                <img src="assets/20250416_185932.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">BIRTHDAY • April 16, 2025</p>
+                </div>
+            </div>
+            <!-- 20241230_094941.jpg -->
+            <div class="masonry-item" onclick="openModal('assets/20241230_094941.jpg', 'Memory', 'Dec 30, 2024')">
+                <img src="assets/20241230_094941.jpg" loading="lazy">
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Memory • Oct 30, 2023</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 1: 20250818_190013.mp4 -->
+            <div class="masonry-item video-item"
+                onclick="openModal('assets/VIDEOS/20250818_190013.mp4', 'CHAN Video', 'Aug 18, 2025', 'video')">
+                <video src="assets/VIDEOS/20250818_190013.mp4" muted preload="metadata"></video>
+                <div class="play-overlay">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:15</div>
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN Memories • Aug 18, 2025</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 2: 20250818_190049.mp4 -->
+            <div class="masonry-item video-item"
+                onclick="openModal('assets/VIDEOS/20250818_190049.mp4', 'CHAN Video', 'Aug 18, 2025', 'video')">
+                <video src="assets/VIDEOS/20250818_190049.mp4" muted preload="metadata"></video>
+                <div class="play-overlay">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:08</div>
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">CHAN Moments • Aug 18, 2025</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 3: 20250818_194733.mp4 -->
+            <div class="masonry-item video-item"
+                onclick="openModal('assets/VIDEOS/20250818_194733.mp4', 'Nairobi Nights', 'Aug 18, 2025', 'video')">
+                <video src="assets/VIDEOS/20250818_194733.mp4" muted preload="metadata"></video>
+                <div class="play-overlay">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:12</div>
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">Nyayo Views • Aug 18, 2025</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 4: 20250818_194831.mp4 -->
+            <div class="masonry-item video-item"
+                onclick="openModal('assets/VIDEOS/20250818_194831.mp4', 'City Lights', 'Aug 18, 2025', 'video')">
+                <video src="assets/VIDEOS/20250818_194831.mp4" muted preload="metadata"></video>
+                <div class="play-overlay">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:10</div>
+                <div class="gallery-overlay">
+                    <p class="text-xs font-bold text-white">City Lights • Aug 18, 2025</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THINGS I LOVE (GRID LAYOUT) -->
+    <section id="best-things">
+        <h2 class="text-4xl md:text-5xl mb-12 neon-text romantic-font" data-aos="zoom-in">Why You?</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full px-4 items-center">
+            <!-- Text List -->
+            <ul class="space-y-6 text-lg md:text-xl font-light text-left">
+                <li class="glass-card p-4 rounded-lg flex items-center" data-aos="fade-right" data-aos-delay="100">
+                    <i class="fas fa-heart text-pink-500 mr-4 text-2xl"></i>
+                    <span>The way you grabbed my tie that first day for someone like you thats a lot of courage still
+                        siji how you were able to pull that of</span>
+                </li>
+                <li class="glass-card p-4 rounded-lg flex items-center" data-aos="fade-right" data-aos-delay="200">
+                    <i class="fas fa-star text-pink-500 mr-4 text-2xl"></i>
+                    <span>How you found me even after I left school.Never thought I would actually meet you again</span>
+                </li>
+                <li class="glass-card p-4 rounded-lg flex items-center" data-aos="fade-right" data-aos-delay="300">
+                    <i class="fas fa-gem text-pink-500 mr-4 text-2xl"></i>
+                    <span>You are bold, beautiful, and my best friend.Na please don't brag.</span>
+                </li>
+            </ul>
+
+            <!-- Photo Grid -->
+            <div class="grid grid-cols-2 gap-4 relative">
+                <div class="space-y-3">
+                    <img src="assets/20250818_184131.jpg"
+                        class="rounded-xl shadow-lg transform rotate-3 hover:rotate-0 transition duration-500 cursor-pointer"
+                        onclick="openModal('assets/20250818_184131.jpg', 'Us', 'Aug 18, 2025')" data-aos="zoom-in"
+                        alt="Us">
+
+                    <!-- Spotify Song Card -->
+                    <a href="https://open.spotify.com/track/1xhiKL4UgfkAfnCUg6HEpA" target="_blank" class="block group"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <div
+                            class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <img src="assets/bg-music/Screenshot_20260209_000812.png"
+                                alt="Better With You - Ollie ft. Aleesia" class="w-full">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
+                                <i class="fab fa-spotify text-green-500 text-3xl"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <img src="assets/IMG_20250103_155154_128.jpg"
+                    class="rounded-xl shadow-lg transform -rotate-3 hover:rotate-0 transition duration-500 mt-8 cursor-pointer"
+                    onclick="openModal('assets/IMG_20250103_155154_128.jpg', 'Together', 'Jan 03, 2025')"
+                    data-aos="zoom-in" data-aos-delay="200" alt="Together">
+
+                <!-- Floating Sticker -->
+                <div class="absolute -top-10 -right-10 animate-bounce" style="animation-duration: 3s;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" width="80" alt="Love Sticker">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. LOGIN (GLASS DESIGN) -->
+    <section id="login-section">
+        <div class="glass-login" id="login-card">
+            <div class="user-icon-glow" style="overflow: hidden; padding: 0; border: 2px solid var(--pink);">
+                <img src="assets/20250818_213436.jpg" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-2xl font-bold mb-6 text-white serif-font">Join Me 🫴</h3>
+
+            <div class="mb-6 text-left">
+                <label class="text-xs uppercase text-gray-400 ml-1">Password</label>
+                <input type="password" id="password-input" class="input-glass mt-1" placeholder="******">
+            </div>
+
+            <button onclick="attemptLogin()"
+                class="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold py-3 rounded-lg hover:shadow-[0_0_20px_#ff007f] transition mb-4">
+                UNLOCK MEMORY
+            </button>
+
+            <p class="text-xs text-gray-400 cursor-pointer hover:text-white transition"
+                onclick="showToast('Woman ask your man! 😂')">
+                Forgot Password?
+            </p>
+
+            <!-- Animations -->
+            <div class="cut-line" id="cut-line"></div>
+            <div class="scissors" id="scissors"><i class="fas fa-cut"></i></div>
+            <div class="nuclear-blast" id="blast"></div>
+        </div>
+
+        <!-- LETTER (Hidden) -->
+        <div id="letter-container" class="glass-card p-8 md:p-12 border-pink-500/20 bg-pink-50/5">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+                <h2 class="handwritten text-5xl gradient-text-pink">My Angel,</h2>
+
+                <!-- WA Voice Note -->
+                <div class="voice-note-wa">
+                    <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center"><i
+                            class="fas fa-user text-xs"></i></div>
+                    <i class="fas fa-play text-gray-400 cursor-pointer" id="voice-icon" onclick="toggleVoice()"></i>
+                    <div class="voice-scrubber">
+                        <div class="voice-progress" id="voice-progress"></div>
+                    </div>
+                    <span class="text-[10px] text-gray-400 font-mono">0:45</span>
+                </div>
+            </div>
+
+            <div class="font-serif text-lg leading-loose text-gray-200">
+                <p class="mb-6">I Never new you at all sikuanajua kaa unaexist ukiwa form one somehow we started with
+                    arguments over you not paying for a hike 😂😂 funny you were the first , survived the distance, and
+                    now here we are. You are my best
+                    friend and my love.</p>
+                <p class="mb-6">I wanted to create this to remind you that no matter what, I'm always going to be the
+                    guy chasing after you.And I know that we thought ukimaliza shule we'll be free kumbe ole wako sisi
+                    😂😂.But the best thing is each time we meet we always happy making new memories unforgetable
+                    ones.So hun just know I love you and promise each and every day should never end while we mad at
+                    each other.Also woman you're unkatia-able 😂😂siezi fikiria mistari hivyo alafu ujibu "kk" do you
+                    know how had it is kufanya usmile leave alone blushing😂 change for the better.</p>
+            </div>
+            <p class="text-right handwritten text-4xl mt-8 gradient-text-gold">Love, Allanoh</p>
+            <div class="w-full md:w-5/12 text-right pr-8 mb-4 md:mb-0 hidden md:block">
+                <div class="glass-card p-2 inline-block transform rotate-1"><img src="assets/20250818_213417.jpg"
+                        class="rounded w-64 h-auto"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. THE PROPOSAL -->
+    <section id="proposal" class="relative overflow-hidden">
+        <div class="z-10 text-center w-full max-w-4xl px-4" id="question-container">
+
+            <div class="mb-8" data-aos="fade-down">
+                <h1 class="text-4xl md:text-6xl font-bold neon-text leading-tight mb-4">Ariam Nyariana...</h1>
+                <p class="text-xl md:text-3xl text-pink-200 font-light romantic-font">Will you make me the happiest man
+                    alive?</p>
+                <h2 class="text-5xl md:text-7xl font-extrabold mt-6 text-white drop-shadow-lg animate-pulse">
+                    Be My Valentine? 🌹
+                </h2>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mt-8 relative h-40 w-full">
+                <button onclick="showYesCard()"
+                    class="bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-5 px-16 rounded-full text-2xl md:text-4xl shadow-[0_0_30px_#ff007f] hover:scale-110 transition border border-white/20">
+                    YES! 😍
+                </button>
+                <button id="no-btn"
+                    class="bg-gray-800 text-gray-500 font-bold py-4 px-12 rounded-full text-xl border border-gray-600 hover:text-white transition whitespace-nowrap">
+                    No 😢
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- YES CARD OVERLAY -->
+    <div id="yes-card-overlay">
+        <div class="yes-card-design" id="yes-card-content">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500">
+            </div>
+
+            <!-- Close -->
+            <button onclick="document.getElementById('yes-card-overlay').style.display='none'"
+                class="absolute top-4 right-4 text-white/50 hover:text-white transition z-50">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <!-- Couple Image & Header -->
+            <div class="relative z-10 mb-6">
+                <div
+                    class="w-28 h-28 mx-auto rounded-full p-1 bg-gradient-to-br from-pink-500 to-purple-600 shadow-[0_0_30px_rgba(255,0,127,0.4)] mb-4">
+                    <img crossorigin="anonymous"
+                        src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300"
+                        class="w-full h-full object-cover rounded-full border-2 border-black/50">
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-200 to-white font-bold mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    SHE SAID YES!
+                </h1>
+                <p class="text-lg text-pink-200/90 font-light italic">"Best decision ever, Angel!" 💖</p>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-white/40 mt-2">Valentine's 2026 • Allan & Ariam
+                </p>
+            </div>
+
+            <!-- TIMELINE VISUAL -->
+            <div class="tl-visual-container relative z-10 px-4">
+                <!-- 2022 -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="tl-node text-xs">2022</div>
+                </div>
+                <div class="tl-line-solid"></div>
+
+                <!-- 2023 -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="tl-node text-xs">2023</div>
+                </div>
+
+                <!-- BROKEN LINE -->
+                <div class="tl-line-broken mx-2 opacity-50"></div>
+
+                <!-- 2024 (Broken Heart) -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="tl-node broken text-xs"><i class="fas fa-heart-broken text-[10px]"></i></div>
+                    <span class="text-[8px] text-gray-500 uppercase tracking-wide absolute -bottom-4">2024</span>
+                </div>
+
+                <!-- RECONNECT LINE -->
+                <div class="h-[2px] w-8 bg-gradient-to-r from-gray-700 to-pink-500 mx-1"></div>
+
+                <!-- 2025 -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="tl-node text-xs"
+                        style="background: linear-gradient(135deg, #ff007f, #9d00ff); box-shadow: 0 0 10px #ff007f; color: white; border:none;">
+                        2025</div>
+                </div>
+                <div class="tl-line-solid" style="background: linear-gradient(to right, #ff007f, #ffd700);"></div>
+
+                <!-- 2026 (Ring) -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="tl-node ring scale-110"><i class="fas fa-ring text-yellow-900 text-sm"></i></div>
+                    <span class="text-[10px] font-bold text-yellow-400 absolute -top-8 animate-bounce">2026</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-center text-white/30 uppercase tracking-widest mb-8">Our Journey</p>
+
+            <!-- Actions (Icons Only) -->
+            <div class="flex justify-center gap-6 relative z-10">
+                <button onclick="downloadImage()"
+                    class="action-btn group relative flex items-center justify-center w-12 h-12 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-all duration-300">
+                    <i class="fas fa-download text-white/70 group-hover:text-pink-400 text-lg"></i>
+                    <span
+                        class="absolute -bottom-8 text-[10px] uppercase tracking-wider text-white/0 group-hover:text-white/50 transition-all duration-300">Save</span>
+                </button>
+
+                <button onclick="shareNews()"
+                    class="action-btn group relative flex items-center justify-center w-12 h-12 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-all duration-300">
+                    <i class="fas fa-share-alt text-white/70 group-hover:text-pink-400 text-lg"></i>
+                    <span
+                        class="absolute -bottom-8 text-[10px] uppercase tracking-wider text-white/0 group-hover:text-white/50 transition-all duration-300">Share</span>
+                </button>
+
+                <button onclick="likeCard(this)"
+                    class="action-btn group relative flex items-center justify-center w-12 h-12 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(255,0,0,0.3)] transition-all duration-300">
+                    <i
+                        class="fas fa-heart text-white/70 group-hover:text-red-500 text-lg transition-transform group-hover:scale-110"></i>
+                    <span
+                        class="absolute -bottom-8 text-[10px] uppercase tracking-wider text-white/0 group-hover:text-white/50 transition-all duration-300">Love</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GALLERY MODAL -->
+    <div id="gallery-modal" onclick="closeModal()">
+        <div id="modal-content" onclick="event.stopPropagation()">
+            <div id="media-container"></div>
+            <div class="bg-black/80 p-4 mt-2 rounded text-center inline-block">
+                <h3 id="modal-title" class="text-xl serif-font text-pink-500">Title</h3>
+                <p id="modal-date" class="text-xs text-gray-400 uppercase tracking-widest">Date</p>
+            </div>
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 0. LOADING SCREEN & SCROLL PROGRESS
+            const loader = document.getElementById('loader');
+            const scrollProgress = document.getElementById('scroll-progress');
+
+            // Hide loader after page loads
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 800);
+            });
+
+            // Update scroll progress bar
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                scrollProgress.style.width = scrolled + '%';
+            });
+
+            AOS.init();
+
+            // 1. START & MUSIC
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.volume = 0.1; // Very low volume
+            document.getElementById('start-overlay').addEventListener('click', function () {
+                bgMusic.play().catch(e => console.log(e));
+                this.style.opacity = 0;
+                setTimeout(() => this.remove(), 500);
+            });
+
+            // 2. GREETING
+            const hours = new Date().getHours();
+            const greetingEl = document.getElementById('greeting');
+            if (hours < 12) greetingEl.innerText = "Good Morning, Angel";
+            else if (hours < 18) greetingEl.innerText = "Good Afternoon, Luv";
+            else greetingEl.innerText = "Good Evening, Ami";
+
+            // 3. COUNTERS
+            const startDate = new Date("2022-10-01T00:00:00");
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - startDate;
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+                const seconds = Math.floor(diff / 1000);
+                document.getElementById('heartbeats').innerText = (seconds * 1.2).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }, 1000);
+
+            // 4. LOGIN LOGIC
+            window.attemptLogin = function () {
+                const pass = document.getElementById('password-input').value.toUpperCase();
+                const card = document.getElementById('login-card');
+                const letter = document.getElementById('letter-container');
+                const cutLine = document.getElementById('cut-line');
+                const scissors = document.getElementById('scissors');
+
+                if (pass === "AWOLAN") {
+                    scissors.style.display = 'block'; scissors.style.left = '0%';
+                    setTimeout(() => { scissors.style.left = '100%'; cutLine.style.width = '100%'; }, 100);
+                    setTimeout(() => {
+                        card.style.transform = "scaleY(0)"; card.style.opacity = "0";
+                        setTimeout(() => { card.style.display = 'none'; letter.style.display = 'block'; setTimeout(() => letter.style.opacity = '1', 100); confetti({ particleCount: 150, spread: 100 }); }, 500);
+                    }, 1100);
+                } else {
+                    const blast = document.getElementById('blast');
+                    blast.style.animation = "explosion 0.5s forwards";
+                    setTimeout(() => { blast.style.animation = "none"; showToast("Wrong Password! 💥 The wormhole patched the cut."); }, 500);
+                }
+            }
+
+            // TOAST FUNCTION
+            window.showToast = function (message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.innerHTML = `<i class="fas fa-info-circle text-pink-500"></i> ${message}`;
+                container.appendChild(toast);
+
+                // Trigger animation
+                requestAnimationFrame(() => {
+                    toast.classList.add('show');
+                });
+
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // 5. YES CARD LOGIC
+            window.showYesCard = function () {
+                document.getElementById('yes-card-overlay').style.display = 'flex';
+                confetti({ particleCount: 200, spread: 150, origin: { y: 0.6 } });
+            }
+
+            window.downloadImage = async function () {
+                const card = document.getElementById('yes-card-content');
+                // Hide close button and actions for screenshot
+                const closeBtn = card.querySelector('button.absolute');
+                const actionsDiv = card.querySelector('.flex.justify-center.gap-6');
+
+                if (closeBtn) closeBtn.style.display = 'none';
+                if (actionsDiv) actionsDiv.style.display = 'none';
+
+                const canvas = await html2canvas(card, {
+                    backgroundColor: null,
+                    boxShadow: true,
+                    scale: 2,
+                    useCORS: true
+                });
+
+                // Restore
+                if (closeBtn) closeBtn.style.display = 'block';
+                if (actionsDiv) actionsDiv.style.display = 'flex';
+
+                const link = document.createElement('a');
+                link.download = 'SheSaidYes_Allanoh.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+
+            window.shareNews = function () {
+                if (navigator.share) navigator.share({ title: 'She Said Yes! 💍', text: 'Allanoh & Ariam - Valentine 2026', url: window.location.href });
+                else alert("Sharing not supported on this browser.");
+            }
+
+            // 6. VOICE NOTE
+            const vAudio = document.getElementById('voice-note-audio');
+            const vIcon = document.getElementById('voice-icon');
+            const vProg = document.getElementById('voice-progress');
+            let playing = false;
+            window.toggleVoice = function () {
+                if (!playing) {
+                    vAudio.play(); vIcon.className = "fas fa-pause text-pink-500 cursor-pointer"; playing = true; updateProgress();
+                } else {
+                    vAudio.pause(); vIcon.className = "fas fa-play text-gray-400 cursor-pointer"; playing = false;
+                }
+            }
+            function updateProgress() {
+                if (playing) {
+                    const pct = (vAudio.currentTime / vAudio.duration) * 100;
+                    vProg.style.width = pct + "%";
+                    if (pct < 100) requestAnimationFrame(updateProgress);
+                    else { playing = false; vIcon.className = "fas fa-play text-gray-400 cursor-pointer"; vProg.style.width = "0%"; }
+                }
+            }
+
+            // 7. NO BUTTON RUNAWAY
+            const noBtn = document.getElementById('no-btn');
+            const taunts = ["Too slow!", "Nice try!", "Missed me!", "Nope!"];
+            function moveNoBtn() {
+                const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+                const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+                noBtn.style.position = 'fixed'; noBtn.style.left = Math.max(10, x) + 'px'; noBtn.style.top = Math.max(10, y) + 'px';
+                noBtn.innerText = taunts[Math.floor(Math.random() * taunts.length)];
+            }
+            noBtn.addEventListener('mouseover', moveNoBtn); noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoBtn(); });
+
+            // 8. BG PARTICLES (HEARTS)
+            const canvas = document.getElementById('canvas-bg');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+
+            class HeartParticle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 15 + 5;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                }
+                update() {
+                    this.x += this.speedX; this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width) this.x = Math.random() * canvas.width;
+                    if (this.y < 0 || this.y > canvas.height) this.y = Math.random() * canvas.height;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255, 0, 127, ${this.alpha})`;
+                    ctx.font = `${this.size}px Arial`;
+                    ctx.fillText("♥", this.x, this.y);
+                }
+            }
+
+            for (let i = 0; i < 80; i++) particles.push(new HeartParticle());
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // 9. GALLERY MODAL LOGIC
+            window.openModal = function (src, title, date, type = 'image') {
+                const modal = document.getElementById('gallery-modal');
+                const container = document.getElementById('media-container');
+                const titleEl = document.getElementById('modal-title');
+                const dateEl = document.getElementById('modal-date');
+
+                if (type === 'video') {
+                    container.innerHTML = `<video src="${src}" controls autoplay loop style="width: 90vw; max-width: 900px; min-height: 500px; height: auto; border-radius: 12px; border: 3px solid var(--pink); box-shadow: 0 0 40px var(--pink);"></video>`;
+                } else {
+                    container.innerHTML = `<img src="${src}">`;
+                }
+
+                titleEl.innerText = title;
+                dateEl.innerText = date;
+                modal.style.display = 'flex';
+            }
+
+            window.closeModal = function () {
+                const modal = document.getElementById('gallery-modal');
+                const container = document.getElementById('media-container');
+                const video = container.querySelector('video');
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+                modal.style.display = 'none';
+            }
+        });
+
+        // Simply adds a like effect
+        function likeCard(btn) {
+            const icon = btn.querySelector('i');
+            icon.classList.remove('text-white/70');
+            icon.classList.add('text-red-500', 'scale-125');
+            confetti({
+                particleCount: 50,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#ff0000', '#ffccd5']
+            });
+        }
+    </script>
+</body>
+
+</html>
