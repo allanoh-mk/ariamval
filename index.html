@@ -1686,13 +1686,31 @@
                 if (actionsDiv) actionsDiv.style.visibility = 'hidden';
 
                 try {
-                    const canvas = await html2canvas(card, {
-                        backgroundColor: null,
-                        boxShadow: true,
-                        scale: 2,
-                        useCORS: true
-                    });
-                    return canvas;
+                    console.log('Attempting html2canvas with useCORS: true');
+                    // First try with useCORS
+                    try {
+                        const canvas = await html2canvas(card, {
+                            backgroundColor: '#000000',
+                            scale: 3,
+                            useCORS: true,
+                            logging: false,
+                            allowTaint: false
+                        });
+                        console.log('html2canvas successful with useCORS');
+                        return canvas;
+                    } catch (corsError) {
+                        console.warn('html2canvas failed with useCORS, trying with allowTaint:', corsError);
+                        // Fallback: try with allowTaint
+                        const canvas = await html2canvas(card, {
+                            backgroundColor: '#000000',
+                            scale: 3,
+                            allowTaint: true,
+                            useCORS: false,
+                            logging: false
+                        });
+                        console.log('html2canvas successful with allowTaint');
+                        return canvas;
+                    }
                 } finally {
                     // ALWAYS Restore visibility
                     if (closeBtn) closeBtn.style.visibility = 'visible';
