@@ -1580,7 +1580,7 @@
 
             // 1. START & MUSIC
             const bgMusic = document.getElementById('bg-music');
-            bgMusic.volume = 0.1; // Very low volume
+            bgMusic.volume = 0.05; // Even lower volume as requested
 
             // Log if music file loads
             bgMusic.addEventListener('canplaythrough', () => console.log('Background music loaded successfully'));
@@ -1701,9 +1701,11 @@
             let playing = false;
             window.toggleVoice = function () {
                 if (!playing) {
+                    bgMusic.pause(); // Pause background music
                     vAudio.play(); vIcon.className = "fas fa-pause text-pink-500 cursor-pointer"; playing = true; updateProgress();
                 } else {
                     vAudio.pause(); vIcon.className = "fas fa-play text-gray-400 cursor-pointer"; playing = false;
+                    bgMusic.play().catch(e => console.log("BG Music resume error:", e)); // Resume background music
                 }
             }
             function updateProgress() {
@@ -1711,7 +1713,12 @@
                     const pct = (vAudio.currentTime / vAudio.duration) * 100;
                     vProg.style.width = pct + "%";
                     if (pct < 100) requestAnimationFrame(updateProgress);
-                    else { playing = false; vIcon.className = "fas fa-play text-gray-400 cursor-pointer"; vProg.style.width = "0%"; }
+                    else {
+                        playing = false;
+                        vIcon.className = "fas fa-play text-gray-400 cursor-pointer";
+                        vProg.style.width = "0%";
+                        bgMusic.play().catch(e => console.log("BG Music resume error:", e)); // Resume background music when finished
+                    }
                 }
             }
 
@@ -1771,6 +1778,7 @@
                 const dateEl = document.getElementById('modal-date');
 
                 if (type === 'video') {
+                    bgMusic.pause(); // Pause background music for videos
                     container.innerHTML = `<video src="${src}" controls autoplay loop style="width: 90vw; max-width: 900px; min-height: 500px; height: auto; border-radius: 12px; border: 3px solid var(--pink); box-shadow: 0 0 40px var(--pink);"></video>`;
                 } else {
                     container.innerHTML = `<img src="${src}">`;
@@ -1788,6 +1796,7 @@
                 if (video) {
                     video.pause();
                     video.currentTime = 0;
+                    bgMusic.play().catch(e => console.log("BG Music resume error:", e)); // Resume background music
                 }
                 modal.style.display = 'none';
             }
