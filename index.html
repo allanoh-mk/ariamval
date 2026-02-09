@@ -1676,6 +1676,43 @@
                 confetti({ particleCount: 200, spread: 150, origin: { y: 0.6 } });
             }
 
+            // Helper to convert external images to Base64 to avoid CORS
+            async function convertImagesToBase64(element) {
+                const images = element.querySelectorAll('img');
+                const promises = Array.from(images).map(async (img) => {
+                    // Only convert external images (http/https URLs)
+                    if (img.src.startsWith('http')) {
+                        try {
+                            const response = await fetch(img.src);
+                            const blob = await response.blob();
+                            const reader = new FileReader();
+                            return new Promise((resolve) => {
+                                reader.onloadend = () => {
+                                    img.setAttribute('data-original-src', img.src);
+                                    img.src = reader.result;
+                                    resolve();
+                                };
+                                reader.readAsDataURL(blob);
+                            });
+                        } catch (err) {
+                            console.warn('Failed to convert image to Base64:', img.src, err);
+                            return Promise.resolve(); // Continue anyway
+                        }
+                    }
+                    return Promise.resolve();
+                });
+                await Promise.all(promises);
+            }
+
+            // Helper to restore original image sources
+            function restoreOriginalImages(element) {
+                const images = element.querySelectorAll('img[data-original-src]');
+                images.forEach(img => {
+                    img.src = img.getAttribute('data-original-src');
+                    img.removeAttribute('data-original-src');
+                });
+            }
+
             // Helper to generate canvas from the card
             async function generateCardCanvas() {
                 const card = document.getElementById('yes-card-content');
@@ -1687,33 +1724,22 @@
                 if (actionsDiv) actionsDiv.style.visibility = 'hidden';
 
                 try {
-                    console.log('Attempting html2canvas with useCORS: true');
-                    // First try with useCORS
-                    try {
-                        const canvas = await html2canvas(card, {
-                            backgroundColor: '#000000',
-                            scale: 3,
-                            useCORS: true,
-                            logging: false,
-                            allowTaint: false
-                        });
-                        console.log('html2canvas successful with useCORS');
-                        return canvas;
-                    } catch (corsError) {
-                        console.warn('html2canvas failed with useCORS, trying with allowTaint:', corsError);
-                        // Fallback: try with allowTaint
-                        const canvas = await html2canvas(card, {
-                            backgroundColor: '#000000',
-                            scale: 3,
-                            allowTaint: true,
-                            useCORS: false,
-                            logging: false
-                        });
-                        console.log('html2canvas successful with allowTaint');
-                        return canvas;
-                    }
+                    console.log('Converting external images to Base64...');
+                    await convertImagesToBase64(card);
+
+                    console.log('Attempting html2canvas...');
+                    const canvas = await html2canvas(card, {
+                        backgroundColor: '#1a0515',
+                        scale: 3,
+                        useCORS: false, // Not needed since we converted to Base64
+                        allowTaint: true,
+                        logging: false
+                    });
+                    console.log('html2canvas successful');
+                    return canvas;
                 } finally {
-                    // ALWAYS Restore visibility
+                    // ALWAYS Restore visibility and original images
+                    restoreOriginalImages(card);
                     if (closeBtn) closeBtn.style.visibility = 'visible';
                     if (actionsDiv) actionsDiv.style.visibility = 'visible';
                 }
