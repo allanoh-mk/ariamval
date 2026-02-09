@@ -1595,6 +1595,18 @@
                 setTimeout(() => this.remove(), 500);
             });
 
+            // Music Visibility Control
+            document.addEventListener("visibilitychange", function () {
+                if (document.hidden) {
+                    bgMusic.pause();
+                } else {
+                    // Only resume if it was already "playing" (not stopped by video/voice)
+                    if (!playing && !document.querySelector('#media-container video')) {
+                        bgMusic.play().catch(e => console.log("BG Music visibility resume error:", e));
+                    }
+                }
+            });
+
             // 2. GREETING
             const hours = new Date().getHours();
             const greetingEl = document.getElementById('greeting');
@@ -1666,25 +1678,26 @@
             // Helper to generate canvas from the card
             async function generateCardCanvas() {
                 const card = document.getElementById('yes-card-content');
-                // Hide close button and actions for screenshot
-                const closeBtn = card.querySelector('button.absolute');
+                // Target close button and actions more specifically
+                const closeBtn = card.querySelector('button.absolute'); // This is the 'X'
                 const actionsDiv = card.querySelector('.flex.justify-center.gap-6');
 
-                if (closeBtn) closeBtn.style.display = 'none';
-                if (actionsDiv) actionsDiv.style.display = 'none';
+                if (closeBtn) closeBtn.style.visibility = 'hidden';
+                if (actionsDiv) actionsDiv.style.visibility = 'hidden';
 
-                const canvas = await html2canvas(card, {
-                    backgroundColor: null,
-                    boxShadow: true,
-                    scale: 2,
-                    useCORS: true
-                });
-
-                // Restore
-                if (closeBtn) closeBtn.style.display = 'block';
-                if (actionsDiv) actionsDiv.style.display = 'flex';
-
-                return canvas;
+                try {
+                    const canvas = await html2canvas(card, {
+                        backgroundColor: null,
+                        boxShadow: true,
+                        scale: 2,
+                        useCORS: true
+                    });
+                    return canvas;
+                } finally {
+                    // ALWAYS Restore visibility
+                    if (closeBtn) closeBtn.style.visibility = 'visible';
+                    if (actionsDiv) actionsDiv.style.visibility = 'visible';
+                }
             }
 
             window.downloadImage = async function () {
