@@ -1679,7 +1679,7 @@
             async function generateCardCanvas() {
                 const card = document.getElementById('yes-card-content');
                 // Target close button and actions more specifically
-                const closeBtn = card.querySelector('button.absolute'); // This is the 'X'
+                const closeBtn = card.querySelector('button');
                 const actionsDiv = card.querySelector('.flex.justify-center.gap-6');
 
                 if (closeBtn) closeBtn.style.visibility = 'hidden';
@@ -1701,15 +1701,23 @@
             }
 
             window.downloadImage = async function () {
-                const canvas = await generateCardCanvas();
-                const link = document.createElement('a');
-                link.download = 'SheSaidYes_Allanoh.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+                try {
+                    console.log('Download button clicked');
+                    const canvas = await generateCardCanvas();
+                    const link = document.createElement('a');
+                    link.download = 'SheSaidYes_Allanoh.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    console.log('Download complete');
+                } catch (err) {
+                    console.error('Error downloading image:', err);
+                    alert('Failed to download image. Please try again.');
+                }
             }
 
             window.shareNews = async function () {
                 try {
+                    console.log('Share button clicked');
                     const canvas = await generateCardCanvas();
                     const dataUrl = canvas.toDataURL('image/png');
                     const blob = await (await fetch(dataUrl)).blob();
@@ -1721,6 +1729,7 @@
                             title: 'She Said Yes! 💍',
                             text: 'Ariam said YES! 💖'
                         });
+                        console.log('Share complete');
                     } else if (navigator.share) {
                         // Fallback to sharing URL if files are not supported
                         await navigator.share({
@@ -1728,13 +1737,17 @@
                             text: 'Ariam said YES! 💖',
                             url: window.location.href
                         });
+                        console.log('Share URL complete');
                     } else {
                         alert("Sharing not supported on this browser.");
                     }
                 } catch (err) {
                     console.error('Error sharing:', err);
                     // Fallback to download if share fails
-                    window.downloadImage();
+                    if (err.name !== 'AbortError') {  // Don't fallback if user cancelled
+                        alert('Sharing failed. Trying to download instead...');
+                        window.downloadImage();
+                    }
                 }
             }
 
