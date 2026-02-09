@@ -1663,7 +1663,8 @@
                 confetti({ particleCount: 200, spread: 150, origin: { y: 0.6 } });
             }
 
-            window.downloadImage = async function () {
+            // Helper to generate canvas from the card
+            async function generateCardCanvas() {
                 const card = document.getElementById('yes-card-content');
                 // Hide close button and actions for screenshot
                 const closeBtn = card.querySelector('button.absolute');
@@ -1683,15 +1684,45 @@
                 if (closeBtn) closeBtn.style.display = 'block';
                 if (actionsDiv) actionsDiv.style.display = 'flex';
 
+                return canvas;
+            }
+
+            window.downloadImage = async function () {
+                const canvas = await generateCardCanvas();
                 const link = document.createElement('a');
                 link.download = 'SheSaidYes_Allanoh.png';
-                link.href = canvas.toDataURL();
+                link.href = canvas.toDataURL('image/png');
                 link.click();
             }
 
-            window.shareNews = function () {
-                if (navigator.share) navigator.share({ title: 'She Said Yes! 💍', text: 'Allanoh & Ariam - Valentine 2026', url: window.location.href });
-                else alert("Sharing not supported on this browser.");
+            window.shareNews = async function () {
+                try {
+                    const canvas = await generateCardCanvas();
+                    const dataUrl = canvas.toDataURL('image/png');
+                    const blob = await (await fetch(dataUrl)).blob();
+                    const file = new File([blob], 'SheSaidYes.png', { type: 'image/png' });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: 'She Said Yes! 💍',
+                            text: 'Ariam said YES! 💖'
+                        });
+                    } else if (navigator.share) {
+                        // Fallback to sharing URL if files are not supported
+                        await navigator.share({
+                            title: 'She Said Yes! 💍',
+                            text: 'Ariam said YES! 💖',
+                            url: window.location.href
+                        });
+                    } else {
+                        alert("Sharing not supported on this browser.");
+                    }
+                } catch (err) {
+                    console.error('Error sharing:', err);
+                    // Fallback to download if share fails
+                    window.downloadImage();
+                }
             }
 
             // 6. VOICE NOTE
